@@ -11,28 +11,29 @@ private:
   int nodes;
 
 public:
-  Tree() {}
+  Tree() : head(nullptr), nodes(0) {};
   void insert(T data) {
     if (!this->head) {
       Node<T> *node = new Node<T>(data);
       this->head = node;
     } else {
-      Node<T> node(data);
+      Node<T>* node = new Node<T>(data) ;
       Node<T> **temp = &head;
       while (*temp) {
-        temp = node->data > temp->data ? &((*temp)->right) : &((*temp)->left);
+        temp = node->data > (*temp)->data ? &((*temp)->right) : &((*temp)->left);
       }
       *temp = node;
     }
   }
   Iterator<T> begin() {
     Node<T> *temp = new Node<T>(this->head);
-    std::stack<Node<T>> initialstack = {this->head};
-    while (temp->next) {
+    std::stack<Node<T>*> initialstack;
+    initialstack.push(this->head);
+    while (temp->left) {
       temp = temp->left;
-      initialstack.push_back(temp);
+      initialstack.push(temp);
     }
-    return Iterator<T>(this->temp, initialstack);
+    return Iterator<T>(temp, initialstack);
   }
   Iterator<T> end() {}
 };
