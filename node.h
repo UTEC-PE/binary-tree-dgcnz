@@ -11,5 +11,4 @@ template <typename T> struct Node {
       : data(node->data), left(node->left), right(node->right) {}
 };
 
-    printstack(it.nodes);
 #endif

@@ -3,48 +3,66 @@
 
 #include "node.h"
 #include <stack>
+#include<iostream>
 
 template <typename T> class Iterator {
 private:
   Node<T> *current;
+  std::stack<Node<T>*> stack_cache;
 
 public:
-
-  std::stack<Node<T>*> nodes;
   Iterator() { current = nullptr; }
   Iterator(Node<T> *node) { this->current = node; }
   Iterator(Node<T> *node, std::stack<Node<T>*> initialstack) {
     this->current = node;
-    this->nodes = initialstack;
+    this->stack_cache = initialstack;
   }
   Iterator<T> operator=(Iterator<T> node) {
-      this->nodes = node.nodes;
+      this->stack_cache = node.stack_cache;
       this->current = node.current;
   }
-  bool operator!=(Iterator<T> cmp) { return (this->current != cmp.current); }
+  bool operator!=(Iterator<T> node) { return (this->current != node.current); }
   Iterator<T> operator++() {
-    bool moved = 0;
-    (this->nodes).pop();
+    (this->stack_cache.pop());
     if(this->current->right)  {
-        moved = 1;
-        this->current = this->current->right;
+        moveToRightChild();
         current_to_stack();
         while(this->current->left){
-            this->current = this->current->left;
+            moveToLeftChild();
             current_to_stack();
         }
     }
-    if(!moved){
-        this->current = (nodes.top());
+    else{
+      moveToLastVisited();
     }
+    return *this;
+  }
+  void moveToLastVisited(){
+    this->current = (this->stack_cache.top());
+  }
+  void moveToRightChild(){
+    this->current = this->current->right;
+  }
 
-
+  void moveToLeftChild(){
+    this->current = this->current->left;
   }
   void current_to_stack(){
-      (this->nodes).push(this->current);
+      (this->stack_cache.push(this->current));
+  }
+
+  void printstack(){
+  std::stack<Node<int>*> a = this-> stack_cache;
+    while (!a.empty()) {
+          std::cout<<(a.top())->data << " ";
+          a.pop();
+     }
+     std::cout << std::endl;
   }
   Iterator<T> operator--() {}
   T operator*() { return (this->current->data); }
 };
 
 #endif
+
+

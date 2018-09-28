@@ -35,7 +35,7 @@ public:
     }
     return Iterator<T>(temp, initialstack);
   }
-  Iterator<T> end() {}
+  Iterator<T> end() {return Iterator<T>(nullptr);}
 };
 
 #endif
