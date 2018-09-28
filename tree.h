@@ -25,6 +25,35 @@ public:
       *temp = node;
     }
   }
+  void remove(T data) {
+    Node<T>** fatherptr = this->get(data);
+    Node<T>* leftptr = (*fatherptr)->left;
+    Node<T>* rightptr = (*fatherptr)->right;
+    delete **fatherptr;
+    *fatherptr = leftptr;
+    while(leftptr->right){
+      leftptr = leftptr->right;
+    }
+    leftptr->right = right;
+  }
+  Node<T>** get(T data){
+    Node<T>** nodeptr = &head;
+    if(!this->head){
+      return nullptr;
+    }
+    else{
+      while((*nodeptr)->data != data){
+        if(data > (*nodeptr)->data ) {
+          nodeptr = &((*nodeptr)->right);
+        }
+        else{
+          nodeptr = &((*nodeptr)->left);
+        }
+        if(!(*nodeptr)) return nullptr;
+      }
+      return nodeptr;
+    }
+  }
   Iterator<T> begin() {
     Node<T> *temp = new Node<T>(this->head);
     std::stack<Node<T>*> initialstack;

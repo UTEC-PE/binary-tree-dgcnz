@@ -29,8 +29,6 @@ int main(void){
       ++it;
     }
     cout << endl;
-    for(it = b.begin(); it!=b.end(); ++it){
-      cout << "*it : " << *it << endl;
-    }
+
     return 0;
 }
