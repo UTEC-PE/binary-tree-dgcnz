@@ -29,12 +29,12 @@ public:
     Node<T>** fatherptr = this->get(data);
     Node<T>* leftptr = (*fatherptr)->left;
     Node<T>* rightptr = (*fatherptr)->right;
-    delete **fatherptr;
+    (**fatherptr).~Node();
     *fatherptr = leftptr;
     while(leftptr->right){
       leftptr = leftptr->right;
     }
-    leftptr->right = right;
+    leftptr->right = rightptr;
   }
   Node<T>** get(T data){
     Node<T>** nodeptr = &head;

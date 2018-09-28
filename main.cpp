@@ -24,11 +24,20 @@ int main(void){
 
 
     Iterator<int> it = t.begin();
+
     for(auto i : sorted){
       cout << "*it : " << *it << "  |   value : " << i << endl;
       ++it;
     }
     cout << endl;
+    Iterator<int> nt = t.begin();
+    t.remove(5);
+
+    sorted.erase(sorted.begin()+1);
+    for(auto i : sorted){
+      cout << "*it : " << *it << "  |   value : " << i << endl;
+      ++it;
+    }
 
     return 0;
 }
