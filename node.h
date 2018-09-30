@@ -9,6 +9,7 @@ template <typename T> struct Node {
   Node(T data) : data(data), left(nullptr), right(nullptr) {}
   Node(Node<T> *node)
       : data(node->data), left(node->left), right(node->right) {}
+  ~Node() { this->left = this->right = nullptr; }
 };
 
 #endif
