@@ -3,9 +3,9 @@
 #include "tree.h"
 #include <algorithm>
 #include <iostream>
+#include <iterator>
 #include <stack>
 #include <vector>
-
 using namespace std;
 
 int main(void) {
@@ -23,22 +23,41 @@ int main(void) {
 
   Iterator<int> it = t.begin();
 
+  t.print();
   for (auto i : sorted) {
     cout << "*it : " << *it << "  |   value : " << i << endl;
     ++it;
   }
   cout << endl;
-  Iterator<int> nt = t.begin();
-  cout << (t.remove(5) ? "found" : "not found") << endl;
+  cout << (t.remove(17) ? "found" : "not found") << endl;
 
-  sorted.erase(sorted.begin() + 1);
+  sorted.erase(remove(sorted.begin(), sorted.end(), 17), sorted.end());
+  vector<int>::iterator i;
 
-  cout << "erase passed" << endl;
-  for (auto i : sorted) {
-    cout << "*it : " << *nt << "  |   value : " << i << endl;
-    ++nt; // Pasé 3 horas debuggeando todo el código y al final era solamente
-          // que me había olvidado cambiar este ++it por un ++nt
+  Iterator<int> nt;
+  for (nt = t.begin(), i = sorted.begin(); nt != t.end(), i != sorted.end();
+       ++nt, ++i) {
+    cout << "*it : " << *nt << "  |   value : " << *i << endl;
   }
+
+  cout << endl;
+  vector<int>::reverse_iterator j;
+  nt.printstack(0);
+  for (nt = t.rbegin(nt), j = sorted.rbegin();
+       nt != t.rend(), j != sorted.rend(); --nt, ++j) {
+    cout << "continue" << endl;
+    cout << "*it : " << *nt << "  |   value : " << *j << endl;
+  }
+
+  t.print(1);
+  cout << endl;
+  t.print(0);
+
+  t.clear();
+
+  t.print(1);
+  cout << endl;
+  t.print(0);
 
   return 0;
 }
